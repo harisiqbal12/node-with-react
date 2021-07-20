@@ -9,19 +9,19 @@ router.route('/google').get(
 	})
 );
 
-router.route('/google/callback').get(passport.authenticate('google'));
+router
+	.route('/google/callback')
+	.get(passport.authenticate('google'), (req, res) => {
+		res.redirect('/survey');
+	});
 
 router.route('/api/current_user').get((req, res) => {
-	if (!req.user) {
-		res.redirect('/');
-		return;
-	}
 	res.send(req.user);
 });
 
 router.route('/api/logout').get((req, res) => {
 	req.logOut();
-	res.send(req.user);
+	res.redirect('/');
 });
 
 module.exports = router;
